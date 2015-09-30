@@ -5,7 +5,11 @@ using System.Collections;
 
 public class GameManager : MonoBehaviour {
 
+	public Text strikeText;
+
 	public Text scoreText;
+	public Text timeText;
+
 	public GameObject player;
 
 	public GameObject ball;
@@ -21,6 +25,8 @@ public class GameManager : MonoBehaviour {
 	public GameObject pin8;
 	public GameObject pin9;
 	public GameObject pin10;
+
+	public GameObject bowlingSystem;
 
 	public int score = 0;
 	public float turnTime = 10f;
@@ -59,15 +65,29 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
+
 		if (Input.GetKey (KeyCode.R)) {
 			Application.LoadLevel (0);
 		}
 
+		int currentFrame = bowlingSystem.GetComponent<BowlingController>().currentFrame;
+
+		if (turnTime < 8 && score == 10) {
+			strikeText.text = "";
+			bowlingSystem.GetComponent<BowlingController>().score[currentFrame + 1] = score;
+			bowlingSystem.GetComponent<BowlingController>().currentFrame = currentFrame + 1;
+			Application.LoadLevel(0);
+		}
+
 		if (turnTime > 0) {
 			turnTime -= Time.deltaTime;
+
+			timeText.text = "Time remaining: " + turnTime;
 		}
 
 		if (turnTime <= 0) {
+			score = 0;
 
 			for (int i = 0; i < 10; i++) {
 				if (pinArray[i] != null) { 
@@ -96,7 +116,25 @@ public class GameManager : MonoBehaviour {
 				}
 			}
 
+			if (turn == 1 && score == 10) {
+				strikeText.text = "STRIKE!!!";
+			}
+
+			turn++;
 			turnTime = 10f;
+
+
+
+			if ( turn == 2 ) {
+				bowlingSystem.GetComponent<BowlingController>().score[currentFrame] = score;
+			} else {
+				bowlingSystem.GetComponent<BowlingController>().score[currentFrame + 1] = score;
+			}
+
+			if (turn > 2) {
+				bowlingSystem.GetComponent<BowlingController>().currentFrame = currentFrame + 1;
+				Application.LoadLevel(0);
+			}
 		}
 	}
 }
