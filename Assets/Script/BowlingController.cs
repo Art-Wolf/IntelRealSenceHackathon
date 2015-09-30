@@ -1,17 +1,18 @@
 ﻿using UnityEngine;
+using System;
 using UnityEngine.UI;
 using System.Collections;
 
 public class BowlingController : MonoBehaviour {
 	public int currentFrame = 0;
 
-	public Text frame1;
-	public Text frame1_1;
-	public Text frame1_2;
+	public  Text frame1;
+	public  Text frame1_1;
+	public  Text frame1_2;
 
-	public Text frame2;
-	public Text frame2_1;
-	public Text frame2_2;
+	public  Text frame2;
+	public  Text frame2_1;
+	public  Text frame2_2;
 
 	public Text frame3;
 	public Text frame3_1;
@@ -46,12 +47,11 @@ public class BowlingController : MonoBehaviour {
 	public Text frame10_2;
 
 
-	public Text[] frames;
+	public  Text[] frames;
 
-	public Text[] subFrames;
+	public  Text[] subFrames;
 
 	public int [] score = new int[20];
-	public int frame = 1;
 
 	// Use this for initialization
 	void Start () {
@@ -99,18 +99,68 @@ public class BowlingController : MonoBehaviour {
 			subFrames [i].text = "";
 		}
 
+		for (int i = 0; i < 20; i++) {
+			score [i] = 0;
+		}
+
+		DontDestroyOnLoad (frame1);
+		DontDestroyOnLoad (frame2);
+		DontDestroyOnLoad (frame3);
+		DontDestroyOnLoad (frame4);
+		DontDestroyOnLoad (frame5);
+		DontDestroyOnLoad (frame6);
+		DontDestroyOnLoad (frame7);
+		DontDestroyOnLoad (frame8);
+		DontDestroyOnLoad (frame9);
+		DontDestroyOnLoad (frame10);
+
+		DontDestroyOnLoad (frame1_1);
+		DontDestroyOnLoad (frame2_1);
+		DontDestroyOnLoad (frame3_1);
+		DontDestroyOnLoad (frame4_1);
+		DontDestroyOnLoad (frame5_1);
+		DontDestroyOnLoad (frame6_1);
+		DontDestroyOnLoad (frame7_1);
+		DontDestroyOnLoad (frame8_1);
+		DontDestroyOnLoad (frame9_1);
+		DontDestroyOnLoad (frame10_1);
+
+		DontDestroyOnLoad (frame1_2);
+		DontDestroyOnLoad (frame2_2);
+		DontDestroyOnLoad (frame3_2);
+		DontDestroyOnLoad (frame4_2);
+		DontDestroyOnLoad (frame5_2);
+		DontDestroyOnLoad (frame6_2);
+		DontDestroyOnLoad (frame7_2);
+		DontDestroyOnLoad (frame8_2);
+		DontDestroyOnLoad (frame9_2);
+		DontDestroyOnLoad (frame10_2);
 
 		DontDestroyOnLoad(this);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		for (int i = 0; i < 10 && i < (currentFrame - 1); i++) {
-			frames [i].text = "" + (score [i] + score [i + 1]);
+		for (int i = 0; i < 20; i++) {
+			if (i == 0) {
+				frames [0].text = "" + (score [0] + score [1]);
+			}
+			if (i == 1) {
+				frames [1].text = "" + (score [2] + score [3]);
+			}
 		}
 
-		for (int i = 0; i < 20 && i < (currentFrame * 2); i++) {
-			subFrames [i].text = "" + (score [i]) ;
+		for (int i = 0; i < 20; i++) {
+			if (i == 0) {
+				subFrames [0].text = "" + (score [i]) ;
+			} else if (i == 1) {
+				subFrames [1].text = "" + (score [i]) ;
+			} else if (i == 2) {
+				subFrames [2].text = "" + (score [i]) ;
+			} else if (i == 3) {
+				subFrames [3].text = "" + (score [i]) ;
+			}
+
 		}
 	}
 }
