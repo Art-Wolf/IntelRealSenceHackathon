@@ -6,6 +6,10 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 
 	public Text scoreText;
+	public GameObject player;
+
+	public GameObject ball;
+
 
 	public GameObject pin1;
 	public GameObject pin2;
@@ -23,29 +27,32 @@ public class GameManager : MonoBehaviour {
 
 	private int turn = 1;
 
-	private Quaternion pin1Position;
-	private Quaternion pin2Position;
-	private Quaternion pin3Position;
-	private Quaternion pin4Position;
-	private Quaternion pin5Position;
-	private Quaternion pin6Position;
-	private Quaternion pin7Position;
-	private Quaternion pin8Position;
-	private Quaternion pin9Position;
-	private Quaternion pin10Position;
-
+	private GameObject [] pinArray = new GameObject[10];
+	private Quaternion [] qutArray = new Quaternion[10];
 	// Use this for initialization
+
 	void Start () {
-		pin1Position = pin1.transform.rotation;
-		pin2Position = pin2.transform.rotation;
-		pin3Position = pin3.transform.rotation;
-		pin4Position = pin4.transform.rotation;
-		pin5Position = pin5.transform.rotation;
-		pin6Position = pin6.transform.rotation;
-		pin7Position = pin7.transform.rotation;
-		pin8Position = pin8.transform.rotation;
-		pin9Position = pin9.transform.rotation;
-		pin10Position = pin10.transform.rotation;
+		pinArray [0] = pin1;
+		pinArray [1] = pin2;
+		pinArray [2] = pin3;
+		pinArray [3] = pin4;
+		pinArray [4] = pin5;
+		pinArray [5] = pin6;
+		pinArray [6] = pin7;
+		pinArray [7] = pin8;
+		pinArray [8] = pin9;
+		pinArray [9] = pin10;
+
+		qutArray[0] = pin1.transform.rotation;
+		qutArray[1] = pin2.transform.rotation;
+		qutArray[2] = pin3.transform.rotation;
+		qutArray[3] = pin4.transform.rotation;
+		qutArray[4] = pin5.transform.rotation;
+		qutArray[5] = pin6.transform.rotation;
+		qutArray[6] = pin7.transform.rotation;
+		qutArray[7] = pin8.transform.rotation;
+		qutArray[8] = pin9.transform.rotation;
+		qutArray[9] = pin10.transform.rotation;
 
 		scoreText.text = "Score: " + score;
 	}
@@ -61,53 +68,35 @@ public class GameManager : MonoBehaviour {
 		}
 
 		if (turnTime <= 0) {
-			pin1.GetComponent<Rigidbody>().velocity = Vector3.zero;
-			pin2.GetComponent<Rigidbody>().velocity = Vector3.zero;
-			pin3.GetComponent<Rigidbody>().velocity = Vector3.zero;
-			pin4.GetComponent<Rigidbody>().velocity = Vector3.zero;
-			pin5.GetComponent<Rigidbody>().velocity = Vector3.zero;
-			pin6.GetComponent<Rigidbody>().velocity = Vector3.zero;
-			pin7.GetComponent<Rigidbody>().velocity = Vector3.zero;
-			pin8.GetComponent<Rigidbody>().velocity = Vector3.zero;
-			pin9.GetComponent<Rigidbody>().velocity = Vector3.zero;
-			pin10.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
-			pin1.GetComponent<Rigidbody>().isKinematic = true;
-			pin2.GetComponent<Rigidbody>().isKinematic = true;
-			pin3.GetComponent<Rigidbody>().isKinematic = true;
-			pin4.GetComponent<Rigidbody>().isKinematic = true;
-			pin5.GetComponent<Rigidbody>().isKinematic = true;
-			pin6.GetComponent<Rigidbody>().isKinematic = true;
-			pin7.GetComponent<Rigidbody>().isKinematic = true;
-			pin8.GetComponent<Rigidbody>().isKinematic = true;
-			pin9.GetComponent<Rigidbody>().isKinematic = true;
-			pin10.GetComponent<Rigidbody>().isKinematic = true;
-
-			float pin1Diff = Quaternion.Angle(pin1.transform.rotation, pin1Position);
-			float pin2Diff = Quaternion.Angle(pin2.transform.rotation, pin2Position);
-			float pin3Diff = Quaternion.Angle(pin3.transform.rotation, pin3Position);
-			float pin4Diff = Quaternion.Angle(pin4.transform.rotation, pin4Position);
-			float pin5Diff = Quaternion.Angle(pin5.transform.rotation, pin5Position);
-			float pin6Diff = Quaternion.Angle(pin6.transform.rotation, pin6Position);
-			float pin7Diff = Quaternion.Angle(pin7.transform.rotation, pin7Position);
-			float pin8Diff = Quaternion.Angle(pin8.transform.rotation, pin8Position);
-			float pin9Diff = Quaternion.Angle(pin9.transform.rotation, pin9Position);
-			float pin10Diff = Quaternion.Angle(pin10.transform.rotation, pin10Position);
-
-			Debug.Log(pin1Diff);
-
-			if (pin1Diff > 1 ) { score = score + 1; if (pin1 != null) { GameObject.Destroy(pin1);}}
-			if (pin2Diff > 1 ) { score = score + 1; if (pin2 != null) { GameObject.Destroy(pin2);}}
-			if (pin3Diff > 1 ) { score = score + 1; if (pin3 != null) { GameObject.Destroy(pin3);}}
-			if (pin4Diff > 1 ) { score = score + 1; if (pin4 != null) { GameObject.Destroy(pin4);}}
-			if (pin5Diff > 1 ) { score = score + 1; if (pin5 != null) { GameObject.Destroy(pin5);}}
-			if (pin6Diff > 1 ) { score = score + 1; if (pin6 != null) { GameObject.Destroy(pin6);}}
-			if (pin7Diff > 1 ) { score = score + 1; if (pin7 != null) { GameObject.Destroy(pin7);}}
-			if (pin8Diff > 1 ) { score = score + 1; if (pin8 != null) { GameObject.Destroy(pin8);}}
-			if (pin9Diff > 1 ) { score = score + 1; if (pin9 != null) { GameObject.Destroy(pin9);}}
-			if (pin10Diff > 1 ) { score = score + 1; if (pin10 != null) { GameObject.Destroy(pin10);}}
+			for (int i = 0; i < 10; i++) {
+				if (pinArray[i] != null) { 
+					pinArray[i].GetComponent<Rigidbody>().isKinematic = true;
+					float pinDiff = Quaternion.Angle(pinArray[i].transform.rotation, qutArray[i]);
+					if (pinDiff > 1 ) { 
+						score = score + 1; 
+						GameObject.Destroy(pinArray[i]);
+					}
+				}
+			}
 
 			scoreText.text = "Score: " + score;
+
+			ball.GetComponent<Rigidbody>().velocity = Vector3.zero;
+			ball.GetComponent<Rigidbody>().isKinematic = true;
+			ball.transform.position = new Vector3(4.6797f, -0.62f, -1.125f);
+			ball.GetComponent<Rigidbody>().isKinematic = false;
+
+			player.GetComponent<GrabAndDrop>().held = 0;
+			player.GetComponent<GrabAndDrop>().grabbedObject = ball;
+
+			for (int i = 0; i < 10; i++) {
+				if (pinArray[i] != null) { 
+					pinArray[i].GetComponent<Rigidbody>().isKinematic = false;
+				}
+			}
+
+			turnTime = 10f;
 		}
 	}
 }

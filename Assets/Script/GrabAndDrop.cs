@@ -8,8 +8,8 @@ public class GrabAndDrop : MonoBehaviour {
 	float grabbedObjectSize;
 	private GameObject PalmCenterPrefab;
 	private Vector3 lastVelocity;
-	private int held = 0;
-	private bool pressed = false;
+	public int held = 0;
+	public bool pressed = false;
 
 	GameObject GetMouseHoverObject(float range)
 	{
@@ -42,7 +42,7 @@ public class GrabAndDrop : MonoBehaviour {
 		
 		//if (grabbedObject.GetComponent<Rigidbody> () != null)
 			//grabbedObject.GetComponent<Rigidbody> ().velocity = Vector3.zero;
-			grabbedObject.GetComponent<Rigidbody>().AddForce(lastVelocity * -100);
+			grabbedObject.GetComponent<Rigidbody>().AddForce(grabbedObject.transform.position * -300);
 		grabbedObject = null;
 	}
 	
@@ -51,14 +51,10 @@ public class GrabAndDrop : MonoBehaviour {
 			if (PalmCenterPrefab == null) {
 				PalmCenterPrefab = GameObject.FindGameObjectWithTag ("palm");
 			}
-			//	if (grabbedObject == null)
-			//		TryGrabObject(GetMouseHoverObject(5));
-			//	else
-			//		DropObject();
-			//}
+
 		
 			if (grabbedObject != null) {
-				Vector3 newPosition = PalmCenterPrefab.transform.position + Camera.main.transform.forward * grabbedObjectSize;
+				Vector3 newPosition = PalmCenterPrefab.transform.position + Camera.main.transform.forward * grabbedObject.GetComponent<Renderer>().bounds.size.magnitude;
 				grabbedObject.transform.position = newPosition;
 				lastVelocity = newPosition;
 			}
