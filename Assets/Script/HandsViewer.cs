@@ -73,6 +73,11 @@ public class HandsViewer : MonoBehaviour
 		
 		InitializeGameobjects ();
 
+		transform.RotateAround (transform.position, Vector3.up, 200 * Time.deltaTime);
+	//	Vector3 _RotateAround = new Vector3 (1, 1f, 180f);
+
+	//	transform.RotateAround (_RotateAround, Vector3.up, 20);
+
 	}
 	
 	// Update is called once per frame
@@ -224,8 +229,10 @@ public class HandsViewer : MonoBehaviour
 		Vector3 _RotateAround = new Vector3 (1, 1f, 30f);
 
 		if (_RotateAround != Vector3.zero) {
-			if (Input.GetKey (KeyCode.RightArrow))
+			if (Input.GetKey (KeyCode.RightArrow)) {
 				transform.RotateAround (_RotateAround, Vector3.up, 200 * Time.deltaTime);
+				Debug.Log ("Current Position: " + transform.position);
+			}
 
 			if (Input.GetKey (KeyCode.LeftArrow))
 				transform.RotateAround (_RotateAround, Vector3.up, -200 * Time.deltaTime);
